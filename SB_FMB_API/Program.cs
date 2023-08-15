@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddCors();
+
 builder.Services.AddDbContext<FMBDbContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
@@ -54,11 +56,24 @@ builder.Services.AddScoped(typeof(IThaliStopRequestRepository), typeof(ThaliStop
 
 builder.Services.AddScoped(typeof(IJwtManagerService), typeof(JwtManagerService));
 builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
+builder.Services.AddScoped(typeof(IMuminService), typeof(MuminService));
 builder.Services.AddScoped(typeof(IThaliService), typeof(ThaliService));
 
 //builder.Services.AddHostedService<SampleDataPopulationService>();
 
 var app = builder.Build();
+
+app.UseCors(x => {
+	x.AllowAnyOrigin()
+	.AllowAnyMethod()
+	.AllowAnyHeader();
+});
+
+using (var scope = app.Services.CreateScope())
+{
+    using (var context = scope.ServiceProvider.GetService<FMBDbContext>())
+        context.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();

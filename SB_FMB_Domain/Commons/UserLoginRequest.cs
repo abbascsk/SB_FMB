@@ -20,4 +20,9 @@ namespace SB_FMB_Domain.Commons
 		public string email { get; set; }
 		public string mobile { get; set; }
 	}
+    public class MuminLoginRequest
+    {
+        public int ItsID { get; set; }
+        public int SFNumber { get; set; }
+    }
 }

@@ -36,6 +36,8 @@ namespace SB_FMB_Domain.Data
 
 		private void AddTimestamps()
 		{
+			//var UserId = User.Identity.GetUserID();
+
 			var entities = ChangeTracker.Entries()
 				.Where(x => x.Entity is EntityBase && (x.State == EntityState.Added || x.State == EntityState.Modified));
 

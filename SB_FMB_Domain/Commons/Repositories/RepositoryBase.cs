@@ -29,7 +29,7 @@ namespace SB_FMB_Domain.Commons.Repositories
             return await _dbContext.Set<T>().Where(predicate).ToListAsync();
         }
 
-        public virtual async Task<T> GetByIdAsync(long id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

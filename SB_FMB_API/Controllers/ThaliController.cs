@@ -1,47 +1,94 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SB_FMB_API.Services.Interfaces;
 using SB_FMB_Domain.Commons;
+using SB_FMB_Domain.Dtos;
+using SB_FMB_Domain.Entities;
 using System.Net;
 
 namespace SB_FMB_API.Controllers
 {
 	[Route("api/v1/[controller]")]
+	[Authorize]
 	[ApiController]
-	public class AuthController : ControllerBase
+	public class ThaliController : ControllerBase
 	{
-		private readonly IJwtManagerService _jwtManagerService;
-		private readonly IUserService _userService;
-		private readonly IPasswordHasher _pHasher;
+		private readonly IThaliService _thaliService;
+		private readonly IThaliItemService _thaliItemService;
+		private readonly IFeedbackService _feedbackService;
 
-		public AuthController(IJwtManagerService jwtManagerService, IUserService userService, IPasswordHasher pHasher)
+		public ThaliController(IThaliService thaliService, IThaliItemService thaliItemService, IFeedbackService feedbackService)
 		{
-			_jwtManagerService = jwtManagerService;
-			_userService = userService;
-			_pHasher = pHasher;
+			_thaliService = thaliService;
+			_thaliItemService = thaliItemService;
+			_feedbackService = feedbackService;
 		}
 
-		[HttpPost("Authenticate")]
-		[ProducesResponseType(typeof(Response<UserSessionResponse>), (int)HttpStatusCode.OK)]
-		public async Task<IActionResult> Authenticate([FromBody] UserLoginRequest loginRequest)
+		[HttpGet("All")]
+		[ProducesResponseType(typeof(Response<List<Thali>>), (int)HttpStatusCode.OK)]
+		public async Task<IActionResult> GetAll()
 		{
 			try
 			{
-				var user = await _userService.GetUserByUserName(loginRequest.Username);
-				if (user == null)
-					return Unauthorized("Invalid username or password");
+				var thalis = await _thaliService.GetAllAsync();
+				return Ok(thalis);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 
-				if (!_pHasher.Check(user.Password, loginRequest.Password).Verified)
-					return Unauthorized("Invalid username or password");
+		[HttpPost]
+		[ProducesResponseType(typeof(Response<Thali>), (int)HttpStatusCode.OK)]
+		public async Task<IActionResult> AddThali(NewThaliRequest newThaliRequest)
+		{
+			try
+			{
+				if (newThaliRequest.ThaliItems.Count() == 0)
+					return BadRequest("Cannot create an empty Thali, please add atleast one item in Thali.");
 
-				var token = _jwtManagerService.Authenticate(user);
-				if (token == null)
-					return Unauthorized();
+				var thali = new Thali
+				{
+					ThaliDate = newThaliRequest.ThaliDate
+				};
 
+				var newThali = await _thaliService.AddAsync(thali);
 
-				return Ok(token);
+				var thaliItems = new List<ThaliItem>();
+
+				foreach(var thaliItem in newThaliRequest.ThaliItems)
+				{
+					thaliItems.Add(new ThaliItem
+					{
+						ThaliId = newThali.ThaliId,
+						ItemName = thaliItem.ItemName,
+					});
+				}
+
+				await _thaliItemService.AddRangeAsync(thaliItems);
+
+				newThali = await _thaliService.GetByIdAsync(newThali.ThaliId);
+
+				return Ok(newThali);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpGet("{id}/Feedback")]
+		[ProducesResponseType(typeof(Response<List<Feedback>>), (int)HttpStatusCode.OK)]
+		public async Task<IActionResult> GetFeedback(int id)
+		{
+			try
+			{
+				var thalis = await _feedbackService.GetByThaliId(id);
+				return Ok(thalis);
 			}
 			catch (Exception ex)
 			{

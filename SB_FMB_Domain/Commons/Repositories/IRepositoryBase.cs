@@ -12,7 +12,7 @@ namespace SB_FMB_Domain.Commons.Repositories
     {
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
-        Task<T> GetByIdAsync(long id);
+        Task<T> GetByIdAsync(int id);
         Task<T> AddAsync(T entity);
         Task AddRangeAsync(IList<T> entities);
         Task UpdateAsync(T entity);

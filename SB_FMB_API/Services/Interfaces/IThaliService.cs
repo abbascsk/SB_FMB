@@ -5,5 +5,6 @@ namespace SB_FMB_API.Services.Interfaces
 {
 	public interface IThaliService : IServiceBase<Thali>
 	{
+		public Task<IEnumerable<Thali>> GetThaliByDate(DateTime thaliDate);
 	}
 }

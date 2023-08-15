@@ -20,5 +20,10 @@ namespace SB_FMB_Domain.Repositories
 		{
 			_dbContext = dbContext;
 		}
+
+		public async Task<List<Feedback>> GetByThaliId(int thaliId)
+		{
+			return await _dbContext.Feedbacks.Where(x => x.ThaliItem.ThaliId == thaliId).ToListAsync();
+		}
 	}
 }

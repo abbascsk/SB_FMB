@@ -11,5 +11,6 @@ namespace SB_FMB_Domain.Repositories.Interfaces
 {
 	public interface IFeedbackRepository : IRepositoryBase<Feedback>
 	{
+		Task<List<Feedback>> GetByThaliId(int thaliId);
 	}
 }

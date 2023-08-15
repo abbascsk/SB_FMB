@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
+using SB_FMB_API.Extensions;
 using SB_FMB_API.Services.Interfaces;
 using SB_FMB_Domain.Commons;
 using SB_FMB_Domain.Entities;
@@ -27,11 +28,28 @@ namespace SB_FMB_API.Controllers
 			_muminService = muminService;
 		}
 
+		[HttpGet("All")]
+		[ProducesResponseType(typeof(Response<List<Mumin>>), (int)HttpStatusCode.OK)]
+		public async Task<IActionResult> GetAll()
+		{
+			try
+			{
+				var mumineen = await _muminService.GetAllAsync();
+				return Ok(mumineen);
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 		[HttpPost("ImportExcel")]
 		public async Task<IActionResult> ImportExcel(IFormFile file)
 		{
 			try
 			{
+				int UserId = User.Identity!.GetUserID();
+
 				if (file == null || file.Length == 0)
 				{
 					return BadRequest("No file uploaded.");

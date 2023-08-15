@@ -11,5 +11,6 @@ namespace SB_FMB_Domain.Repositories.Interfaces
 {
 	public interface IThaliRepository : IRepositoryBase<Thali>
 	{
+		public Task<IEnumerable<Thali>> GetThaliByDate(DateTime thaliDate);
 	}
 }

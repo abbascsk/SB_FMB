@@ -1,0 +1,12 @@
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\bin\Release\net6.0\SB_FMB_Domain.deps.json
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\bin\Release\net6.0\SB_FMB_Domain.dll
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\bin\Release\net6.0\SB_FMB_Domain.pdb
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\SB_FMB_Domain.csproj.AssemblyReference.cache
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\SB_FMB_Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\SB_FMB_Domain.AssemblyInfoInputs.cache
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\SB_FMB_Domain.AssemblyInfo.cs
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\SB_FMB_Domain.csproj.CoreCompileInputs.cache
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\SB_FMB_Domain.dll
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\refint\SB_FMB_Domain.dll
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\SB_FMB_Domain.pdb
+D:\Projects\ASP Core Projects\SB_FMB\SB_FMB_Domain\obj\Release\net6.0\ref\SB_FMB_Domain.dll

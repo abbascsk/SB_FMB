@@ -28,7 +28,7 @@ namespace SB_FMB_Domain.Commons.Service
             return _baseRepository.GetAsync(predicate);
         }
 
-        public Task<TEntity> GetByIdAsync(long id)
+        public Task<TEntity> GetByIdAsync(int id)
         {
             return _baseRepository.GetByIdAsync(id);
         }

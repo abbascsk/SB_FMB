@@ -6,7 +6,7 @@ namespace SB_FMB_Domain.Commons.Service
     {
         Task<IReadOnlyList<TEntity>> GetAllAsync();
         Task<IReadOnlyList<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
-        Task<TEntity> GetByIdAsync(long id);
+        Task<TEntity> GetByIdAsync(int id);
         Task<TEntity> AddAsync(TEntity entity);
 		Task<int> AddRangeAsync(List<TEntity> entity);
 		Task UpdateAsync(TEntity entity);

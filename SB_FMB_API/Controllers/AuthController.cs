@@ -14,12 +14,14 @@ namespace SB_FMB_API.Controllers
 	{
 		private readonly IJwtManagerService _jwtManagerService;
 		private readonly IUserService _userService;
-		private readonly IPasswordHasher _pHasher;
+        private readonly IMuminService _muminService;
+        private readonly IPasswordHasher _pHasher;
 
-		public AuthController(IJwtManagerService jwtManagerService, IUserService userService, IPasswordHasher pHasher)
+		public AuthController(IJwtManagerService jwtManagerService, IUserService userService, IMuminService muminService, IPasswordHasher pHasher)
 		{
 			_jwtManagerService = jwtManagerService;
 			_userService = userService;
+			_muminService = muminService;
 			_pHasher = pHasher;
 		}
 
@@ -47,7 +49,34 @@ namespace SB_FMB_API.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
-		}
+        }
 
-	}
+        [HttpPost("Mumin/Authenticate")]
+        [ProducesResponseType(typeof(Response<UserSessionResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> AuthenticateMumin([FromBody] MuminLoginRequest loginRequest)
+        {
+            try
+            {
+                var user = await _muminService.GetByIdAsync(loginRequest.ItsID);
+
+                if (user == null)
+                    return Unauthorized("This ITS number does not exist");
+
+                if (user.SFNumber != loginRequest.SFNumber)
+                    return Unauthorized("Invalid SF number");
+
+                var token = _jwtManagerService.AuthenticateMumin(user);
+                if (token == null)
+                    return Unauthorized();
+
+
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+    }
 }

@@ -20,5 +20,12 @@ namespace SB_FMB_Domain.Repositories
 		{
 			_dbContext = dbContext;
 		}
-	}
+
+        public async Task<IEnumerable<Thali>> GetThaliByDate(DateTime thaliDate)
+        {
+			return await _dbContext.Thalis.Include(x => x.ThaliItems)
+				.Where(x => x.ThaliDate == thaliDate)
+				.ToListAsync();
+        }
+    }
 }

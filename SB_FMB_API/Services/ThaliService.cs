@@ -13,5 +13,10 @@ namespace SB_FMB_API.Services
 		{
 			_thaliRepository = thaliRepository;
 		}
-	}
+
+        public async Task<IEnumerable<Thali>> GetThaliByDate(DateTime thaliDate)
+        {
+			return await _thaliRepository.GetThaliByDate(thaliDate);
+        }
+    }
 }

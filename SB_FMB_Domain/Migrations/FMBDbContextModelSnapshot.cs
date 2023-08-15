@@ -45,6 +45,13 @@ namespace SB_FMB_Domain.Migrations
                     b.Property<int>("MuminItsId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ThaliItemItemId")
                         .HasColumnType("int");
 
@@ -66,10 +73,7 @@ namespace SB_FMB_Domain.Migrations
             modelBuilder.Entity("SB_FMB_Domain.Entities.Mumin", b =>
                 {
                     b.Property<int>("ItsId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItsId"), 1L, 1);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
